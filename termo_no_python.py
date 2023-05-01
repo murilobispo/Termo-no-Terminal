@@ -8,6 +8,7 @@ with open("termo_palavras.txt") as arquivo:
         filtro = filtro.strip()
         lista_palavras.append(filtro)
 palavra = choice(lista_palavras).upper()
+palavra = 'cabra'.upper()
 
 cadeia = '_' * len(palavra)
 lista_cadeia = [cadeia for _ in range(0, 6)]
@@ -45,15 +46,52 @@ while not ganhou and not perdeu:
             lista_cadeia[abs(tentativas - 5)] = '\033[1;42m{}\033[m'.format(chute)
             confirma_ganhou = True
         else:
+            #letras_2fa       = []
+            letras_acertadas = []
+            letras_erradas   = []
             resultado = ["_" for letra in palavra]
-            for x in range(0, len(cadeia)):
-                if chute[x] == palavra[x]:
-                    resultado[x] = '\033[1;42m{}\033[m'.format(chute[x])
-                elif chute[x] in palavra:
-                    resultado[x] = '\033[1;43m{}\033[m'.format(chute[x])
-                else:
-                    resultado[x] = '\033[1;40m{}\033[m'.format(chute[x])
 
+            for x in range(0, len(cadeia)):
+                #letras_2fa.append(chute[x])
+                letras_erradas.append(chute[x])
+                resultado[x] = '\033[1;40m{}\033[m'.format(chute[x])
+
+                if chute[x] == palavra[x]:
+                    resultado[x] = '\033[1;37;42m{}\033[m'.format(chute[x])
+                    #letras_2fa.remove(palavra[x])
+                    letras_acertadas.append(palavra[x])
+                    letras_erradas.remove(palavra[x])
+            
+            #while len(letras_2fa) != 0:
+            print(letras_acertadas)
+            print(letras_erradas)
+
+
+            for i in letras_erradas:
+                if i in palavra:
+                    print(i)
+
+            
+            #for i in range(0, len(letras_2fa)):
+                #letra_verificar = letras_2fa[i]
+                #indexes = [i for i, c in enumerate(palavra) if c == letra_verificar]
+
+                #for l in range(0, len(indexes)):
+                    #print(indexes[l])
+
+                #if letras_2fa[i] in palavra :
+                    #print(i)
+                    #print(letras_2fa[i])
+
+
+
+            #resultado[x] = '\033[1;43m{}\033[m'.format(chute[x])
+            #print(letras_2fa)
+            #print(palavra)
+            #letras_2fa.pop(0)
+
+
+            
             resultado = ''.join(resultado)
             lista_cadeia[abs(tentativas - 5)] = resultado
 
