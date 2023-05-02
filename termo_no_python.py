@@ -8,7 +8,6 @@ with open("palavras.txt") as arquivo:
         filtro = filtro.strip()
         lista_palavras.append(filtro)
 palavra = choice(lista_palavras).upper()
-palavra = 'cabra'.upper()
 
 cadeia = '_' * len(palavra)
 lista_cadeia = [cadeia for _ in range(0, 6)]
@@ -37,14 +36,18 @@ while not ganhou and not perdeu:
     if len(chute) != len(palavra):
         print('Fora do número de letras!!!')
         continue
+
     if not chute.isalpha():
         print('Somente letras!!!')
         continue
+
     else:
         tentativas -= 1
+
         if chute == palavra:
             lista_cadeia[abs(tentativas - 5)] = '\033[1;42m{}\033[m'.format(chute)
             confirma_ganhou = True
+
         else:
             indice_letras_erradas   = []
             resultado = ["_" for letra in palavra]
@@ -58,14 +61,14 @@ while not ganhou and not perdeu:
                     indice_letras_erradas.remove(x)
             
             letras_restantes = []
-
             for i in indice_letras_erradas  :
                 letras_restantes.append(palavra[i])
 
             for i in indice_letras_erradas:
                 if chute[i] in letras_restantes:
                     resultado[i] = '\033[1;43m{}\033[m'.format(chute[i])
-            
+                    letras_restantes.remove(chute[i])
+     
             resultado = ''.join(resultado)
             lista_cadeia[abs(tentativas - 5)] = resultado
 
