@@ -28,6 +28,7 @@ Falso
 Fonte
 Folha
 Filme
+Fiado
 Golpe
 Grupo
 Grito
@@ -63,6 +64,7 @@ Nuvem
 Noite
 Navio
 Nariz
+Ninja
 Ordem
 Odiar
 Obter
@@ -98,3 +100,4 @@ Valor
 Vazio
 Velho
 Vulto
+Viral
