@@ -5,14 +5,15 @@ def termo():
     funcoes.limpar()
     palavras = funcoes.gera_palavra(1)
     palavra = palavras[0]
+
+    tentativas = 6
     cadeia = '_' * len(palavra)
-    lista_cadeia = [cadeia for _ in range(0, 6)]
+    lista_cadeia = [cadeia for _ in range(0, tentativas)]
 
     ganhou = False
     perdeu = False
     confirma_ganhou = False
     confirma_perdeu = False
-    tentativas = 6
 
     while not ganhou and not perdeu:
 

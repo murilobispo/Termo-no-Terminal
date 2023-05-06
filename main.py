@@ -2,6 +2,7 @@ from termo import termo
 from dueto    import dueto
 from quarteto import quarteto
 import funcoes
+
 print('{:^26}'.format('\033[1mTERMO EM PYTHON\033[m'))
 
 fim = False
