@@ -2,11 +2,14 @@ import funcoes
 
 def dueto():
     funcoes.limpar()
+
     palavras = funcoes.gera_palavra(2)
     palavra1 = palavras[0]
     palavra2 = palavras[1]
 
     tentativas = 7
+    erro = ''
+    
     cadeia = '_' * len(palavra1)
     lista_cadeia1 = [cadeia for _ in range(0, tentativas)]
     lista_cadeia2 = [cadeia for _ in range(0, tentativas)]
@@ -19,11 +22,10 @@ def dueto():
     confirma_perdeu = False
 
     while not ganhou and not perdeu:
-
         funcoes.limpar()
-        print('{:^39}'.format('\033[1mDUETO\033[m'))
-        print('\n')
-
+        
+        print('{:^39}\n'.format('\033[1mDUETO\033[m'))
+        print('{:^39}'.format(erro))
 
         for i in range (0, len(lista_cadeia1)):
             print('       {}'.format(str(lista_cadeia1[i])), end='')
@@ -36,7 +38,12 @@ def dueto():
             perdeu = True
             break
 
-        chute = funcoes.recebe_chute()
+        chute = input('{:>7}'.format('>'))
+        resultados = funcoes.recebe_chute(chute)
+        chute = resultados[0]
+        erro  = resultados[1]
+        if erro:
+            continue 
 
         tentativas -= 1
 
@@ -50,58 +57,11 @@ def dueto():
             confirma_ganhou = True
 
         else:
-
+            
             if not acertou1:
-
-                indice_letras_erradas   = []
-                resultado = ["_" for letra in palavra1]
-                for x in range(0, len(cadeia)):
-                    indice_letras_erradas.append(x)
-                    resultado[x] = '\033[1;40m{}\033[m'.format(chute[x])
-
-                    if chute[x] == palavra1[x]:
-                        resultado[x] = '\033[1;42m{}\033[m'.format(chute[x])
-                        indice_letras_erradas.remove(x)
-                
-                letras_restantes = []
-                for i in indice_letras_erradas  :
-                    letras_restantes.append(palavra1[i])
-
-                for i in indice_letras_erradas:
-                    if chute[i] in letras_restantes:
-                        resultado[i] = '\033[1;43m{}\033[m'.format(chute[i])
-                        letras_restantes.remove(chute[i])
-            
-                resultado = ''.join(resultado)
-                lista_cadeia1[abs(tentativas - 6)] = resultado
-
-            ################################
+                lista_cadeia1[abs(tentativas - 6)] = funcoes.processa_chute(chute, palavra1)
             if not acertou2:
-
-                indice_letras_erradas   = []
-                resultado = ["_" for letra in palavra2]
-
-                for x in range(0, len(cadeia)):
-                    indice_letras_erradas.append(x)
-                    resultado[x] = '\033[1;40m{}\033[m'.format(chute[x])
-
-                    if chute[x] == palavra2[x]:
-                        resultado[x] = '\033[1;42m{}\033[m'.format(chute[x])
-                        indice_letras_erradas.remove(x)
-                
-                letras_restantes = []
-                for i in indice_letras_erradas  :
-                    letras_restantes.append(palavra2[i])
-
-                for i in indice_letras_erradas:
-                    if chute[i] in letras_restantes:
-                        resultado[i] = '\033[1;43m{}\033[m'.format(chute[i])
-                        letras_restantes.remove(chute[i])
-            
-                resultado = ''.join(resultado)
-                lista_cadeia2[abs(tentativas - 6)] = resultado
-
-
+                lista_cadeia2[abs(tentativas - 6)] = funcoes.processa_chute(chute, palavra2)
             if tentativas == 0:
                 confirma_perdeu = True
 

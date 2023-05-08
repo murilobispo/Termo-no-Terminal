@@ -1,12 +1,14 @@
 import funcoes
 
 def termo():
-
     funcoes.limpar()
+
     palavras = funcoes.gera_palavra(1)
     palavra = palavras[0]
 
     tentativas = 6
+    erro = ''
+
     cadeia = '_' * len(palavra)
     lista_cadeia = [cadeia for _ in range(0, tentativas)]
 
@@ -16,13 +18,14 @@ def termo():
     confirma_perdeu = False
 
     while not ganhou and not perdeu:
-
         funcoes.limpar()
-        print('{:^26}'.format('\033[1mTERMO\033[m'))
-        print('\n')
+
+        print('{:^26}\n'.format('\033[1mTERMO\033[m'))
+        print('{:^28}'.format(erro))
+
         for cadeias in lista_cadeia:
             print('       {}'.format(str(cadeias)))
-
+            
         if confirma_ganhou:
             ganhou = True
             break
@@ -30,7 +33,12 @@ def termo():
             perdeu = True
             break
 
-        chute = funcoes.recebe_chute()
+        chute = input('{:>7}'.format('>'))
+        resultados = funcoes.recebe_chute(chute)
+        chute = resultados[0]
+        erro  = resultados[1]
+        if erro:
+            continue 
 
         tentativas -= 1
 
@@ -39,28 +47,7 @@ def termo():
             confirma_ganhou = True
 
         else:
-            indice_letras_erradas   = []
-            resultado = ["_" for letra in palavra]
-
-            for x in range(0, len(cadeia)):
-                indice_letras_erradas.append(x)
-                resultado[x] = '\033[1;40m{}\033[m'.format(chute[x])
-
-                if chute[x] == palavra[x]:
-                    resultado[x] = '\033[1;42m{}\033[m'.format(chute[x])
-                    indice_letras_erradas.remove(x)
-            
-            letras_restantes = []
-            for i in indice_letras_erradas  :
-                letras_restantes.append(palavra[i])
-
-            for i in indice_letras_erradas:
-                if chute[i] in letras_restantes:
-                    resultado[i] = '\033[1;43m{}\033[m'.format(chute[i])
-                    letras_restantes.remove(chute[i])
-        
-            resultado = ''.join(resultado)
-            lista_cadeia[abs(tentativas - 5)] = resultado
+            lista_cadeia[abs(tentativas - 5)] = funcoes.processa_chute(chute, palavra)
 
             if tentativas == 0:
                 confirma_perdeu = True
@@ -68,5 +55,5 @@ def termo():
     if ganhou:
         print('\n{:^30}'.format('\033[1;46mGANHOU!\033[m'))
     if perdeu:
-        print('\n\033[1;46m palavra certa: {}\033[m'.format(palavra))
+        print('\n\033[1;46mPalavra: {}\033[m'.format(palavra))
     input("\nPressione ENTER para voltar ao menu")
